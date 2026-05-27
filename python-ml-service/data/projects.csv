@@ -1,0 +1,5 @@
+project_id,name,manager_id,start_date,end_date,status
+101,Retail POS Modernization,11,2026-04-01,2026-06-30,ACTIVE
+102,Supply Chain Forecasting,12,2026-04-15,2026-07-15,ACTIVE
+103,Loyalty App Revamp,13,2026-05-01,2026-08-01,ACTIVE
+104,Store Ops Dashboard,14,2026-03-15,2026-06-15,ACTIVE
