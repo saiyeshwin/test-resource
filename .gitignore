@@ -1,0 +1,25 @@
+.class
+.env
+.venv
+ptc.py
+.class 
+ 
+# Maven / build output 
+**/target/ 
+**/*.log 
+ 
+# IntelliJ / Eclipse / VS Code 
+**/.idea/ 
+**/*.iml 
+**/.classpath 
+**/.project 
+**/.settings/ 
+.vscode/ 
+ 
+# OS 
+.DS_Store 
+Thumbs.db 
+ 
+*.class
+**/node_modules/
+**/.env

@@ -1,0 +1,23 @@
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: postgres-db
+
+    environment:
+      POSTGRES_DB: projectdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+  springboot:
+    build: ./platform
+    container_name: springboot-app
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - postgres

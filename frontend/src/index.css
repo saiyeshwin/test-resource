@@ -1,0 +1,265 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f8f9fa;
+  --surface: #ffffff;
+  --surface-strong: #f1f5f9;
+  --text: #1e293b;
+  --text-h: #0f172a;
+  --muted: #64748b;
+  --accent: #E9733C;
+  --accent-2: #F42919;
+  --brand: #E9733C;
+  --text-accent: #c2410c;
+  --border: #e2e8f0;
+  --code-bg: #f1f5f9;
+  --accent-bg: rgba(233, 115, 60, 0.08);
+  --accent-border: #e2e8f0;
+  --social-bg: rgba(241, 245, 249, 0.8);
+  --shadow: rgba(15, 23, 42, 0.08) 0px 20px 25px -5px,
+    rgba(15, 23, 42, 0.04) 0px 10px 10px -5px;
+
+  /* Accessible Light Theme Semantic Colors */
+  --success: #15803d;
+  --success-bg: rgba(21, 128, 61, 0.1);
+  --warning: #a16207;
+  --warning-bg: rgba(161, 98, 7, 0.1);
+  --danger: #b91c1c;
+  --danger-bg: rgba(185, 28, 28, 0.1);
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  @apply antialiased;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: var(--accent-bg);
+  color: var(--text-h);
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.card-surface {
+  background: var(--surface);
+  border: 1px solid var(--accent-border);
+  backdrop-filter: blur(14px);
+}
+
+.glow-ring {
+  box-shadow: 0 0 0 1px var(--accent-bg), 0 30px 90px rgba(0, 0, 0, 0.12);
+}
+
+/* Manual theme override: add `data-theme="dark"` on <html> to force dark theme */
+:root[data-theme="dark"] {
+  --text: #9be0ff;
+  --text-h: #dff6ff;
+  --muted: #8ab9ff;
+  --bg: #000000;
+  --surface: rgba(2, 10, 22, 0.96);
+  --surface-strong: rgba(0, 0, 0, 0.98);
+  --border: #082247;
+  --code-bg: #021226;
+  --accent: #3b82f6;
+  --accent-2: #1d4ed8;
+  --text-accent: var(--accent);
+  --accent-bg: rgba(59, 130, 246, 0.14);
+  --accent-border: rgba(59, 130, 246, 0.26);
+  --social-bg: rgba(2, 8, 18, 0.72);
+  --brand: #3b82f6;
+  --shadow: rgba(0, 0, 0, 0.85) 0 10px 30px -6px, rgba(0, 0, 0, 0.6) 0 6px 10px -4px;
+  /* Semantic colors */
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.12);
+  --warning: #eab308;
+  --warning-bg: rgba(234, 179, 8, 0.12);
+  --danger: #ef4444;
+  --danger-bg: rgba(239, 68, 68, 0.12);
+}
+
+/* Dark-mode overrides for header and cards to ensure blue boxes/text */
+:root[data-theme="dark"] header {
+  background: var(--surface-strong) !important;
+  border-bottom-color: var(--border) !important;
+  color: var(--text-h) !important;
+}
+
+:root[data-theme="dark"] .card-surface {
+  background: var(--surface) !important;
+  border-color: rgba(59, 130, 246, 0.06) !important;
+  color: var(--text) !important;
+}
+
+:root[data-theme="dark"] .glow-ring {
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.12), 0 30px 60px rgba(0, 0, 0, 0.6) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #9be0ff;
+    --text-h: #dff6ff;
+    --muted: #8ab9ff;
+    --bg: #000000;
+    --surface: rgba(2, 10, 22, 0.96);
+    --surface-strong: rgba(0, 0, 0, 0.98);
+    --border: #082247;
+    --code-bg: #021226;
+    --accent: #3b82f6;
+    --accent-2: #1d4ed8;
+    --text-accent: var(--accent);
+    --accent-bg: rgba(59, 130, 246, 0.14);
+    --accent-border: rgba(59, 130, 246, 0.26);
+    --social-bg: rgba(2, 8, 18, 0.72);
+    --brand: #3b82f6;
+    --shadow: rgba(0, 0, 0, 0.85) 0 10px 30px -6px, rgba(0, 0, 0, 0.6) 0 6px 10px -4px;
+    /* Semantic colors */
+    --success: #22c55e;
+    --success-bg: rgba(34, 197, 94, 0.12);
+    --warning: #eab308;
+    --warning-bg: rgba(234, 179, 8, 0.12);
+    --danger: #ef4444;
+    --danger-bg: rgba(239, 68, 68, 0.12);
+  }
+
+  #social .button-icon {
+    filter: invert(1) brightness(2);
+  }
+}
+
+/* Explicit light-theme override when `data-theme="light"` is set on <html> */
+:root[data-theme="light"] {
+  --bg: #f8f9fa;
+  --surface: #ffffff;
+  --surface-strong: #f1f5f9;
+  --text: #1e293b;
+  --text-h: #0f172a;
+  --muted: #64748b;
+  --accent: #E9733C;
+  --accent-2: #F42919;
+  --brand: #E9733C;
+  --text-accent: #c2410c;
+  --border: #e2e8f0;
+  --code-bg: #f1f5f9;
+  --accent-bg: rgba(233, 115, 60, 0.08);
+  --accent-border: #e2e8f0;
+  --social-bg: rgba(241, 245, 249, 0.8);
+  --shadow: rgba(15, 23, 42, 0.08) 0px 20px 25px -5px,
+    rgba(15, 23, 42, 0.04) 0px 10px 10px -5px;
+  --success: #15803d;
+  --success-bg: rgba(21, 128, 61, 0.1);
+  --warning: #a16207;
+  --warning-bg: rgba(161, 98, 7, 0.1);
+  --danger: #b91c1c;
+  --danger-bg: rgba(185, 28, 28, 0.1);
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light;
+  color: var(--text);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  border-inline: none;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}

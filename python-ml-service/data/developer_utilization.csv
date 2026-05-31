@@ -1,0 +1,27 @@
+project_id,developer_id,developer_name,sprint_name,utilization_pct
+101,501,Aisha,Sprint 1,78
+101,501,Aisha,Sprint 2,82
+101,501,Aisha,Sprint 3,84
+101,501,Aisha,Sprint 4,86
+101,502,Ben,Sprint 1,72
+101,502,Ben,Sprint 2,75
+101,502,Ben,Sprint 3,77
+101,502,Ben,Sprint 4,80
+101,503,Chen,Sprint 1,85
+101,503,Chen,Sprint 2,88
+101,503,Chen,Sprint 3,90
+101,503,Chen,Sprint 4,92
+102,504,Divya,Sprint 1,88
+102,504,Divya,Sprint 2,91
+102,504,Divya,Sprint 3,94
+102,505,Ethan,Sprint 1,84
+102,505,Ethan,Sprint 2,87
+102,505,Ethan,Sprint 3,90
+103,501,Aisha,Sprint 1,92
+103,501,Aisha,Sprint 2,95
+103,503,Chen,Sprint 1,90
+103,503,Chen,Sprint 2,96
+104,502,Ben,Sprint 3,80
+104,502,Ben,Sprint 4,83
+104,504,Divya,Sprint 3,86
+104,504,Divya,Sprint 4,89
