@@ -1,0 +1,118 @@
+Here are the exact changes needed for both issues. No code will be touched yet.
+
+---
+
+## Issue 1 — React: Developer task filter (`Tasks.jsx`)
+
+### Root cause
+The `user` object stored in `AuthContext` has `name`, `email`, `role` — but **no `id`**. The Spring JWT only puts the email as the `subject` claim — no user ID is embedded in the token. So there's currently no way to compare `t.assigneeId` on the frontend.
+
+### What needs to change — 4 steps
+
+**Step 1 — Spring: Add `GET /api/auth/me`** in [`AuthController.java`](file:///C:/Users/Sai%20Yeshwin/.gemini/antigravity/scratch/AI-Powered-Project-Resource-Management-Intelligence-Platform/platform/src/main/java/com/seveneleven/platform/controller/AuthController.java)
+
+Add a new endpoint that reads the currently authenticated user from the security context and returns their full profile:
+
+```java
+@GetMapping("/me")
+public ResponseEntity<?> me(Authentication authentication) {
+    String email = authentication.getName(); // email is the JWT subject
+    User user = userRepository.findByEmail(email).orElseThrow();
+    return ResponseEntity.ok(Map.of(
+        "id",    user.getId(),
+        "name",  user.getName(),
+        "email", user.getEmail(),
+        "role",  user.getRole().name()
+    ));
+}
+```
+
+This endpoint is already covered by `.anyRequest().authenticated()` in `SecurityConfig` — no security config change needed.
+
+---
+
+**Step 2 — React: Call `/auth/me` after login/register** in [`AuthContext.jsx`](file:///C:/Users/Sai%20Yeshwin/.gemini/antigravity/scratch/AI-Powered-Project-Resource-Management-Intelligence-Platform/frontend/src/context/AuthContext.jsx)
+
+In both `login()` and `register()`, after receiving the token, immediately call `GET /auth/me` to get the real user profile:
+
+```js
+// After: localStorage.setItem('rm_token', data.token)
+const me = await api.get('/auth/me')   // uses the token just stored
+const userPayload = {
+  id:    me.id,               // ← real numeric ID from the DB
+  name:  me.name,
+  email: me.email,
+  role:  normalizeRole(me.role)
+}
+```
+
+Also update the `useEffect` hydration block so that when the page is refreshed, the `id` is read back from `localStorage` the same way it was saved.
+
+---
+
+**Step 3 — React: Fix the filter in [`Tasks.jsx`](file:///C:/Users/Sai%20Yeshwin/.gemini/antigravity/scratch/AI-Powered-Project-Resource-Management-Intelligence-Platform/frontend/src/pages/Tasks.jsx)**
+
+Replace the fuzzy name match:
+```js
+// BEFORE (line 115-117)
+const displayedTasks = isDeveloper
+  ? tasks.filter(t => user.name && t.assigneeName?.toLowerCase().includes(user.name.split(' ')[0].toLowerCase()))
+  : tasks
+```
+
+With a strict numeric ID comparison:
+```js
+// AFTER
+const displayedTasks = isDeveloper
+  ? tasks.filter(t => t.assigneeId === user.id)
+  : tasks
+```
+
+---
+
+**Step 4 — Spring (optional improvement): Embed user ID in JWT**
+
+Alternatively to Step 2, you could embed `userId` as a custom claim in the JWT in [`JwtService.java`](file:///C:/Users/Sai%20Yeshwin/.gemini/antigravity/scratch/AI-Powered-Project-Resource-Management-Intelligence-Platform/platform/src/main/java/com/seveneleven/platform/security/JwtService.java) and decode it on the frontend with `atob()`. But **the `/auth/me` approach (Step 2) is cleaner** — no frontend JWT parsing required.
+
+---
+
+## Issue 2 — Spring: `upload-csv` in `permitAll` (`SecurityConfig.java`)
+
+### What needs to change — 1 line
+
+In [`SecurityConfig.java`](file:///C:/Users/Sai%20Yeshwin/.gemini/antigravity/scratch/AI-Powered-Project-Resource-Management-Intelligence-Platform/platform/src/main/java/com/seveneleven/platform/config/SecurityConfig.java#L47-L53), the `permitAll` block currently is:
+
+```java
+.requestMatchers(
+    "/api/auth/**",
+    "/api/uploads/upload-csv",   // ← REMOVE this line
+    "/v3/api-docs/**",
+    "/swagger-ui/**",
+    "/swagger-ui.html"
+)
+.permitAll()
+```
+
+**Simply delete the `/api/uploads/upload-csv` line.**
+
+Once removed, Spring Security evaluates rules top-to-bottom. The URL `/api/uploads/upload-csv` will then match the existing rule:
+
+```java
+.requestMatchers("/api/uploads/**")
+.hasAnyRole("ADMIN", "MANAGER")
+```
+
+So it automatically becomes restricted to ADMIN and MANAGER — no new rule needs to be added.
+
+---
+
+## Summary of files to touch
+
+| File | Change |
+|---|---|
+| `AuthController.java` | Add `GET /auth/me` endpoint |
+| `AuthContext.jsx` | Call `/auth/me` after login/register, store `id` in userPayload |
+| `Tasks.jsx` | Change filter from name-match to `t.assigneeId === user.id` |
+| `SecurityConfig.java` | Remove `/api/uploads/upload-csv` from `permitAll` list |
+
+Ready to apply whenever you say so.
